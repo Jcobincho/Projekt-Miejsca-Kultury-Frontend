@@ -35,7 +35,7 @@ export function LikeBtn() {
     );
 }
 
-// Card - iamge template area
+// Card - image template area
 export function Card() {
     return(
         <div className="card"> </div>
