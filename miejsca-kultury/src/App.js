@@ -1,11 +1,13 @@
 import './App.css';
-import LikeBtn, { LikeCard } from './LikingSystem.jsx';
+import LikeBtn, { LikeCard } from './components/LikingSystem.jsx';
 
 function App() {
   return (
     <>
-      <LikeCard/>
-      <LikeBtn/>  
+    {/*
+    */}
+    /<LikeCard/>
+    <LikeBtn/>  
     </>
   );
 }
