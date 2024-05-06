@@ -8,6 +8,7 @@ import MiejscaRekreacyjne from './components/userNotLogged/MiejscaRekreacyjne/Mi
 import MiejscaReligijne from './components/userNotLogged/MiejscaReligijne/MiejscaReligijne';
 import MiejscaHistoryczne from './components/userNotLogged/MiejscaHistoryczne/MiejscaHistoryczne';
 import NotLoggedNav from './components/userNotLogged/NotLoggedNav/NotLoggedNav';
+import AdminPanel from './components/adminLogged/AdminPanel/AdminPanel';
 
 import "./App.css";
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "/miejsca-rekreacyjne", element: <MiejscaRekreacyjne /> },
       { path: "/miejsca-religijne", element: <MiejscaReligijne /> },
       { path: "/miejsca-historyczne", element: <MiejscaHistoryczne /> },
+      { path: "/admin-panel", element: <AdminPanel /> },
 
     ],
  },
