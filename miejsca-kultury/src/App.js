@@ -8,12 +8,12 @@ import MiejscaRekreacyjne from './components/userNotLogged/MiejscaRekreacyjne';
 import MiejscaReligijne from './components/userNotLogged/MiejscaReligijne';
 import MiejscaHistoryczne from './components/userNotLogged/MiejscaHistoryczne';
 import NotLoggedNav from './components/userNotLogged/NotLoggedNav';
+import LikeBtn from './components/userNotLogged/LikingSystem/LikingSystem';
 
 import "./App.css";
 
 const router = createBrowserRouter([
  {
-    
     element: <NotLoggedNav />, 
     children: [
       { path: "/", element: <MainPage /> },
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       { path: "/miejsca-rekreacyjne", element: <MiejscaRekreacyjne /> },
       { path: "/miejsca-religijne", element: <MiejscaReligijne /> },
       { path: "/miejsca-historyczne", element: <MiejscaHistoryczne /> },
-
+      { path: "/add-like", element: <LikeBtn/> }
     ],
  },
 ]);
