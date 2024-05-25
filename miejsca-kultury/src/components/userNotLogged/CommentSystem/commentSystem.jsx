@@ -12,7 +12,7 @@ function Comment({ comment, addReply }) {
     };
 
     return (
-        <div style={{ marginLeft: '20px', marginTop: '10px', backgroundColor: '#f9f9f9', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
+        <div style={{ marginLeft: '20px', marginTop: '10px' }}>
             <div>{comment.text}</div>
             <button onClick={() => setShowReplyInput(!showReplyInput)}>Odpowiedz</button>
             {showReplyInput && (

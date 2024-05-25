@@ -4,3 +4,13 @@
 ::-webkit-scrollbar {
     display: none;
 }
+
+.likeCounter {
+    font-size: 0.95em;
+    color: #000000;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+}
