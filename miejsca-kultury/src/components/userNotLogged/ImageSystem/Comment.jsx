@@ -26,7 +26,7 @@ export default function TextFieldSection({ onChange, placeholder }) {
     <Box
       component="form"
       sx={{
-        '& > :not(style)': { m: 2, width: '13%' },
+        '& > :not(style)': { m: 2, width: '30%' },
       }}
       noValidate
       autoComplete="off"

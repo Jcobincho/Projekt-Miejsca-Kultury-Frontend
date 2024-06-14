@@ -15,7 +15,6 @@ import ResetPassword from './components/userNotLogged/ResetPassword/resetPasswor
 import ForgotPassword from './components/userNotLogged/ForgotPassword/forgotPassword';
 import ConfirmAccount from './components/userNotLogged/ConfirmAccount/ConfirmAccount';
 import ImageSystem from './components/userNotLogged/ImageSystem/ImageAddingSystem';
-import UpdatePosts from './components/userNotLogged/ImageSystem/UpdatePosts';
 import LocationFunction from './components/userNotLogged/ImageSystem/Location'
 import "./App.css";
 
@@ -40,7 +39,6 @@ const router = createBrowserRouter([
       { path: "/reset-password", element: <ResetPassword/> },
       { path: "/confirm-account", element: <ConfirmAccount/> },
       { path: "/image-system", element: <ImageSystem/>},
-      { path: "/update-posts", element: <UpdatePosts/>},
       { path: "/map", element: <LocationFunction/>}
     ],
  },

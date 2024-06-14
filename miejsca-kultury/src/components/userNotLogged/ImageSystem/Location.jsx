@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleMap, useLoadScript } from '@react-google-maps/api';
+
 import { gsap } from 'gsap';
 
 export default function LocationFunction({ onLocationChange }) {
@@ -42,7 +43,7 @@ export default function LocationFunction({ onLocationChange }) {
     }
 
     return (
-        <div style={{ height: '30vh', width: '100vw', border: '1px solid #3333337a', borderRadius: '5px' }}>
+        <div style={{ height: '30vh', width: '38vw', border: '1px solid #3333337a', borderRadius: '5px' }}>
             <GoogleMap
                 mapContainerStyle={{ width: '100%', height: '100%' }}
                 zoom={8}

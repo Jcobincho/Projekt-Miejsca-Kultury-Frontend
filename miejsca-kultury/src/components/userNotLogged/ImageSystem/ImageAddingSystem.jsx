@@ -122,13 +122,14 @@ export default function ImageSystem() {
                 value={Category} 
                 onChange={handlePlaceChange} 
                 className="styled-select"
-            >
-                <option value={0}>Centra kulturalne</option>
-                <option value={1}>Centra naukowe</option>
-                <option value={2}>Instytucje kulturalne</option>
-                <option value={3}>Miejsca historyczne</option>
-                <option value={4}>Miejsca rekreacyjne</option>
-                <option value={5}>Miejsca religijne</option>
+            >   
+                <option value={0}>Wybierz rodzaj miejsca</option>
+                <option value={1}>Centra kulturalne</option>
+                <option value={2}>Centra naukowe</option>
+                <option value={3}>Instytucje kulturalne</option>
+                <option value={4}>Miejsca historyczne</option>
+                <option value={5}>Miejsca rekreacyjne</option>
+                <option value={6}>Miejsca religijne</option>
             </select>
             <TextFieldSection onChange={handleNameChange} placeholder={'Nazwa miejsca'}/>
             <TextFieldSection onChange={handleDescriptionChange} placeholder={'Opis miejsca'}/>
