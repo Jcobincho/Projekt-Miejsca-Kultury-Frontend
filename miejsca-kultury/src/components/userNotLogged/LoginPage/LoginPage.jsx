@@ -44,6 +44,7 @@ const LoginPage = () => {
                     localStorage.setItem('name',data.name);
                     localStorage.setItem('surname',data.surname);
                     localStorage.setItem('avatar',data.avatarUrl);
+                    localStorage.setItem("role", data.roles);
                     usenavigate('/welcomepage')
                 } else {
                     toast.error(`${messageToDisplay.title}`);
