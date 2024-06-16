@@ -15,8 +15,8 @@ import ResetPassword from './components/userNotLogged/ResetPassword/resetPasswor
 import ForgotPassword from './components/userNotLogged/ForgotPassword/forgotPassword';
 import ConfirmAccount from './components/userNotLogged/ConfirmAccount/ConfirmAccount';
 import ImageSystem from './components/userNotLogged/ImageSystem/ImageAddingSystem';
+import Comments from './components/userNotLogged/Comments/comments';
 import "./App.css";
-
 
 const router = createBrowserRouter([
  {
@@ -37,7 +37,8 @@ const router = createBrowserRouter([
       { path: "/forgot-password", element: <ForgotPassword/> },
       { path: "/reset-password", element: <ResetPassword/> },
       { path: "/confirm-account", element: <ConfirmAccount/> },
-      { path: "/image-system", element: <ImageSystem/>}
+      { path: "/image-system", element: <ImageSystem/>},
+      { path: "/comments", element: <Comments/>}
     ],
  },
 ]);
