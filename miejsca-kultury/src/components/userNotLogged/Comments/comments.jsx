@@ -80,7 +80,7 @@ function Comments() {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
+        },                                 // tutaj potrzeba znania 'id' komentarza
         body: JSON.stringify({ commentId: '03d7df48-429f-447a-843c-8eed56cc03a9'})
       });
 
@@ -106,16 +106,15 @@ function Comments() {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ commentId: id, newMessage: newMessage })
+        },                                 // tutaj potrzeba znania 'id' komentarza
+        body: JSON.stringify({ commentId: '03d7df48-429f-447a-843c-8eed56cc03a9', newMessage: newMessage })
       });
 
       if (response.ok) {
         toast.success('Komentarz został zaktualizowany.');
-        setComments((prevComments) => prevComments.map(comment => comment.id === id ? { ...comment, message: newMessage } : comment));
+        setComments((prevComments) => prevComments.map(comment => comment.id === id ? { ...comment, newMessage: newMessage } : comment));
       } else {
-        const res = await response.json();
-        toast.error(`Wystąpił błąd podczas aktualizacji komentarza: ${res.message}`);
+        toast.error('Wystąpił błąd podczas aktualizacji komentarza.');
       }
     } catch (error) {
       console.error('Error:', error);
