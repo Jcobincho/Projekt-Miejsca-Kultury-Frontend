@@ -5,7 +5,7 @@ import TextFieldSection from "../ImageSystem/Comment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function MiejscaRekreacyjne() {
+function CentraNaukowe() {
   const [posts, setPosts] = useState(null);
   const [location, setLocation] = useState({ lat: null, lng: null });
   const [newTitle, setName] = useState("");
@@ -20,10 +20,10 @@ function MiejscaRekreacyjne() {
   });
   const [placeId, setPlace] = useState();
   const [rating,setRating] = useState();
-  const [averageRating,setAverageRating] = useState();
+ // const [averageRating,setAverageRating] = useState();
   const [ratingPostId, setRatingPostId] = useState(null);
   const [editingRatingId, setEditingRatingId] = useState(null);
-  const [editedRating, setEditedRating] = useState(null);
+  const [newRating, setEditedRating] = useState(null);
 
   const rolesString = localStorage.getItem("role");
   const userRoles = rolesString ? rolesString.split(",") : [];
@@ -34,7 +34,6 @@ function MiejscaRekreacyjne() {
       const res = await response.json();
       const message = JSON.stringify(res);
       const messageToDisplay = JSON.parse(message);
-
       if (response.ok) {
         setPosts(res);
         console.log(posts);
@@ -203,6 +202,7 @@ function MiejscaRekreacyjne() {
         if (response.ok) {
             setPlace(posts.filter((post) => post.id !== placeId));
             toast.success(`${messageToDisplay.message}`);
+            window.location.reload();
         }
         else{
             Object.entries(res.errors).forEach(([key, value]) => {
@@ -211,27 +211,6 @@ function MiejscaRekreacyjne() {
         }
     } catch (error) {}
 };
-
-const fetchRating = async (placeId) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/rating/${placeId}`);
-      const res = await response.json();
-      const message = JSON.stringify(res);
-      const messageToDisplay = JSON.parse(message);
-
-      if (response.ok) {
-        setPlace(res);
-        console.log(posts);
-      } else {
-        toast.error(`${messageToDisplay.title}`);
-        Object.entries(res.errors).forEach(([key, value]) => {
-          toast.error(value.join(", "));
-        });
-      }
-    } catch (error) {
-      console.error("Błąd:", error.message);
-    }
-  };
 
   const handleEditRatingClick = (post) => {
     setEditingRatingId(post.id);
@@ -245,7 +224,7 @@ const fetchRating = async (placeId) => {
   const EditRating = async (placeId) => {
     let ValidationError = false;
 
-    if (!editedRating) {
+    if (!newRating) {
         toast.warning("Należy wybrać ocenę.");
         ValidationError = true;
     }
@@ -255,11 +234,12 @@ const fetchRating = async (placeId) => {
     }
     const data = {
         placeId,
-        editedRating,
+        newRating,
     };
 
     const token = localStorage.getItem('token');
     console.log(token);
+    console.log(placeId);
 
     try {
         console.log(data);
@@ -281,6 +261,7 @@ const fetchRating = async (placeId) => {
         if (response.ok) {
             setPlace(posts.filter((post) => post.id !== placeId));
             toast.success(`${messageToDisplay.message}`);
+            window.location.reload();
         }
         else{
             Object.entries(res.errors).forEach(([key, value]) => {
@@ -292,7 +273,6 @@ const fetchRating = async (placeId) => {
 
   useEffect(() => {
     fetchPosts();
-    fetchRating();
   }, []);
 
   return (
@@ -305,7 +285,7 @@ const fetchRating = async (placeId) => {
         alignItems: "center",
       }}
     >
-      <h2 style={{ color: "#333" }}>Miejsca Rekreacyjne</h2>
+      <h2 style={{ color: "#333" }}>Miejsca rekreacyjne</h2>
       {Array.isArray(posts) && posts.length > 0 ? (
         posts.map((post) => (
           <div
@@ -320,6 +300,7 @@ const fetchRating = async (placeId) => {
               width: "100%",
             }}
           >
+
             {editingPostId === post.id ? (
               <div>
                 <h3>Edytuj Post</h3>
@@ -378,9 +359,8 @@ const fetchRating = async (placeId) => {
                     }}
                   />
                 )}
-                
                 <p style={{ margin: "0 0 10px", color: "#777" }}>
-                  Średnia cena: {post.averageRating}
+                Średnia ocena: {post.averageRating ? post.averageRating : "Brak oceny"}
                 </p>
                 <button
                   onClick={() => setRatingPostId(post.id)}
@@ -394,7 +374,7 @@ const fetchRating = async (placeId) => {
                     marginRight: "10px",
                   }}
                 >
-                  Dodaj opinię
+                  Dodaj ocenę
                 </button>
                 {ratingPostId === post.id && (
                   <div>
@@ -435,9 +415,9 @@ const fetchRating = async (placeId) => {
                 )}
                 {editingRatingId === post.id ? (
                 <div>
-                  <h3>Edytuj opinię</h3>
+                  <h3>Edytuj ocenę</h3>
                   <select
-                    value={editedRating}
+                    value={newRating}
                     onChange={handleEditedRatingChange}
                     className="styled-select"
                     style={{ marginBottom: "10px" }}
@@ -483,7 +463,7 @@ const fetchRating = async (placeId) => {
                     marginRight: "10px",
                   }}
                 >
-                  Edytuj opinię
+                  Edytuj ocenę
                 </button>
               )}
                 {userRoles.includes("Admin") && (
@@ -544,4 +524,4 @@ const fetchRating = async (placeId) => {
     </div>
   );
 };
-export default MiejscaRekreacyjne;
+export default CentraNaukowe;
