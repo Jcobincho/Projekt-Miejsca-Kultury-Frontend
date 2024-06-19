@@ -151,6 +151,7 @@ function CentraNaukowe() {
       if (response.ok) {
         toast.success(`${messageToDisplay.message}`);
         setPosts(posts.filter((post) => post.id !== postId));
+        window.location.reload();
       } else {
         toast.error(`${messageToDisplay.title}`);
         Object.entries(res.errors).forEach(([key, value]) => {
