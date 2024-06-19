@@ -24,14 +24,17 @@ function CentraNaukowe() {
   const [rating,setRating] = useState();
   const [ratingPostId, setRatingPostId] = useState(null);
   const [editingRatingId, setEditingRatingId] = useState(null);
-  const [editedRating, setEditedRating] = useState(null);
-
+  const [averageRating, setAverageRating] = useState();
+  const [newRating, setEditedRating] = useState(null);
+  const token = localStorage.getItem("token");
   const rolesString = localStorage.getItem("role");
   const userRoles = rolesString ? rolesString.split(",") : [];
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/post/2`);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/api/post/2`
+      );
       const res = await response.json();
       const message = JSON.stringify(res);
       const messageToDisplay = JSON.parse(message);
@@ -132,7 +135,8 @@ function CentraNaukowe() {
     try {
       //let logobj = { postId, name, newLocalizationX, newLocalizationY, Description, Category }
       console.log(data);
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/post/update-posts`,
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/api/post/update-posts`,
         {
           method: "PUT",
           headers: {
@@ -164,24 +168,24 @@ function CentraNaukowe() {
 
   const handleRatingChange = (event) => {
     setRating(Number(event.target.value));
-  }
+  };
 
   const handleSubmit = async (placeId) => {
     let ValidationError = false;
 
     if (!rating) {
-        toast.warning("Należy wybrać ocenę.");
-        ValidationError = true;
+      toast.warning("Należy wybrać ocenę.");
+      ValidationError = true;
     }
 
     if (ValidationError) {
-        return;
+      return;
     }
     const data = {
-        placeId,
-        rating
+      placeId,
+      rating,
     };
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     console.log(token);
 
     try {
@@ -211,12 +215,30 @@ function CentraNaukowe() {
                 toast.error(value.join(', '));
             });
         }
+      );
+      const responseStatus = JSON.stringify(response.status);
+      if (responseStatus === 401) {
+        toast.error("Nie można wykonać takiej operacji");
+      }
+      const res = await response.json();
+      const message = JSON.stringify(res);
+      const messageToDisplay = JSON.parse(message);
+      if (response.ok) {
+        setPlace(posts.filter((post) => post.id !== placeId));
+        toast.success(`${messageToDisplay.message}`);
+      } else {
+        Object.entries(res.errors).forEach(([key, value]) => {
+          toast.error(value.join(", "));
+        });
+      }
     } catch (error) {}
-};
+  };
 
-const fetchRating = async (placeId) => {
+  const fetchRating = async (placeId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/rating/${placeId}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BASE_URL}/api/rating/${placeId}`
+      );
       const res = await response.json();
       const message = JSON.stringify(res);
       const messageToDisplay = JSON.parse(message);
@@ -239,7 +261,7 @@ const fetchRating = async (placeId) => {
     setEditingRatingId(post.id);
     setEditedRating(post.rating);
   };
-  
+
   const handleEditedRatingChange = (event) => {
     setEditedRating(Number(event.target.value));
   };
@@ -247,20 +269,22 @@ const fetchRating = async (placeId) => {
   const EditRating = async (placeId) => {
     let ValidationError = false;
 
-    if (!editedRating) {
-        toast.warning("Należy wybrać ocenę.");
-        ValidationError = true;
+
+    if (!newRating) {
+      toast.warning("Należy wybrać ocenę.");
+      ValidationError = true;
     }
 
     if (ValidationError) {
-        return;
+      return;
     }
     const data = {
-        placeId,
-        editedRating,
+
+      placeId,
+      newRating,
     };
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     console.log(token);
 
     try {
@@ -290,6 +314,22 @@ const fetchRating = async (placeId) => {
                 toast.error(value.join(', '));
             });
         }
+      );
+      const responseStatus = JSON.stringify(response.status);
+      if (responseStatus === 401) {
+        toast.error("Nie można wykonać takiej operacji");
+      }
+      const res = await response.json();
+      const message = JSON.stringify(res);
+      const messageToDisplay = JSON.parse(message);
+      if (response.ok) {
+        setPlace(posts.filter((post) => post.id !== placeId));
+        toast.success(`${messageToDisplay.message}`);
+      } else {
+        Object.entries(res.errors).forEach(([key, value]) => {
+          toast.error(value.join(", "));
+        });
+      }
     } catch (error) {}
   };
 
@@ -378,7 +418,6 @@ const fetchRating = async (placeId) => {
                 </button>
               </div>
             ) : (
-                
               <div>
                 <h3 style={{ margin: "0 0 10px", color: "#555" }}>
                   Obiekt: {post.title}
@@ -398,25 +437,29 @@ const fetchRating = async (placeId) => {
                     }}
                   />
                 )}
-                
+
                 <p style={{ margin: "0 0 10px", color: "#777" }}>
                   Średnia cena: {post.averageRating}
                 </p>
-                <button
-                  onClick={() => setRatingPostId(post.id)}
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#c56",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "3px",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                  }}
-                >
-                  Dodaj opinię
-                </button>
-                {ratingPostId === post.id && (
+                {token && (
+                  <>
+                    <button
+                      onClick={() => setRatingPostId(post.id)}
+                      style={{
+                        padding: "10px 15px",
+                        backgroundColor: "#c56",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "3px",
+                        cursor: "pointer",
+                        marginRight: "10px",
+                      }}
+                    >
+                      Dodaj opinię
+                    </button>
+                  </>
+                )}
+                {token && ratingPostId === post.id && (
                   <div>
                     <select
                       value={rating}
@@ -448,64 +491,67 @@ const fetchRating = async (placeId) => {
                       Wyślij
                     </button>
                     <button type="button" onClick={() => setRatingPostId(null)}>
-                        Anuluj
+                      Anuluj
                     </button>
-                    <div style={{ marginBottom: '20px' }}></div>
+                    <div style={{ marginBottom: "20px" }}></div>
                   </div>
                 )}
-                {editingRatingId === post.id ? (
-                <div>
-                  <h3>Edytuj opinię</h3>
-                  <select
-                    value={editedRating}
-                    onChange={handleEditedRatingChange}
-                    className="styled-select"
-                    style={{ marginBottom: "10px" }}
-                  >
-                    <option value={0}>Wybierz ocenę</option>
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                    <option value={5}>5</option>
-                  </select>
+                {token && editingRatingId === post.id ? (
+                  <div>
+                    <h3>Edytuj opinię</h3>
+                    <select
+                      value={newRating}
+                      onChange={handleEditedRatingChange}
+                      className="styled-select"
+                      style={{ marginBottom: "10px" }}
+                    >
+                      <option value={0}>Wybierz ocenę</option>
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
+                      <option value={3}>3</option>
+                      <option value={4}>4</option>
+                      <option value={5}>5</option>
+                    </select>
+                    <button
+                      type="button"
+                      className="image_sent"
+                      onClick={() => EditRating(post.id)}
+                      style={{
+                        padding: "10px 15px",
+                        backgroundColor: "#c56",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "3px",
+                        cursor: "pointer",
+                        marginLeft: "10px",
+                      }}
+                    >
+                      Zaktualizuj
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingRatingId(null)}
+                    >
+                      Anuluj
+                    </button>
+                    <div style={{ marginBottom: "20px" }}></div>
+                  </div>
+                ) : (
                   <button
-                    type="button"
-                    className="image_sent"
-                    onClick={() => EditRating(post.id)}
+                    onClick={() => handleEditRatingClick(post)}
                     style={{
                       padding: "10px 15px",
-                      backgroundColor: "#c56",
+                      backgroundColor: "#5555",
                       color: "#fff",
                       border: "none",
                       borderRadius: "3px",
                       cursor: "pointer",
-                      marginLeft: "10px",
+                      marginRight: "10px",
                     }}
                   >
-                    Zaktualizuj
+                    Edytuj opinię
                   </button>
-                  <button type="button" onClick={() => setEditingRatingId(null)}>
-                      Anuluj
-                  </button>
-                  <div style={{ marginBottom: '20px' }}></div>
-                </div>
-              ) : (
-                <button
-                  onClick={() => handleEditRatingClick(post)}
-                  style={{
-                    padding: "10px 15px",
-                    backgroundColor: "#5555",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "3px",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                  }}
-                >
-                  Edytuj opinię
-                </button>
-              )}
+                )}
                 {userRoles.includes("Admin") && (
                   <>
                     <button
@@ -537,7 +583,7 @@ const fetchRating = async (placeId) => {
                     </button>
                   </>
                 )}
-                  <div style={{ marginBottom: '20px' }}></div>
+                <div style={{ marginBottom: "20px" }}></div>
                 <Link
                   className="btn btn-primary"
                   to={`/map`}
@@ -565,5 +611,5 @@ const fetchRating = async (placeId) => {
       <ToastContainer />
     </div>
   );
-};
+}
 export default CentraNaukowe;
