@@ -5,7 +5,7 @@ import TextFieldSection from "../ImageSystem/Comment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function CentraNaukowe() {
+function CentraKulturalne() {
   const [posts, setPosts] = useState(null);
   const [location, setLocation] = useState({ lat: null, lng: null });
   const [newTitle, setName] = useState("");
@@ -525,4 +525,4 @@ function CentraNaukowe() {
     </div>
   );
 };
-export default CentraNaukowe;
+export default CentraKulturalne;
